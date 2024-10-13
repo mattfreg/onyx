@@ -1,4 +1,4 @@
-name: Build Onyx for macOS
+name: Build Onyx for macOS Test
 
 on:
   push:
