@@ -23,8 +23,13 @@ jobs:
           echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
           eval "$(/opt/homebrew/bin/brew shellenv)"
         
-      - name: Install Xcode tools
-        run: xcode-select --install
+      - name: Install Xcode tools (if necessary)
+        run: |
+          if ! xcode-select -p &>/dev/null; then
+            xcode-select --install;
+          else
+            echo "Xcode tools already installed";
+          fi
 
       - name: Install dependencies with Homebrew
         run: |
