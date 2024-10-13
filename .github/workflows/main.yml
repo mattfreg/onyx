@@ -1,7 +1,11 @@
 name: Build Onyx for macOS Test
 
 on:
+  workflow_dispatch:  # This allows manual triggering
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
