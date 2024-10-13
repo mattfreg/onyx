@@ -1,0 +1,9 @@
+# Setup configure
+Configuring build-tool-depends-extra-version-0.1.0.0...
+# Setup sdist
+Distribution quality warnings:
+No 'maintainer' field.
+No 'description' field.
+A 'license-file' is not specified.
+Building source dist for build-tool-depends-extra-version-0.1.0.0...
+Source tarball created: setup.dist/work/dist/build-tool-depends-extra-version-0.1.0.0.tar.gz

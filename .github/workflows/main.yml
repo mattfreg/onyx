@@ -1,0 +1,56 @@
+name: Build Onyx for macOS
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Homebrew
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        
+      - name: Install Xcode tools
+        run: xcode-select --install
+
+      - name: Install dependencies with Homebrew
+        run: |
+          brew update
+          brew install stack
+
+      - name: Initialize git submodules
+        run: git submodule update --init --recursive
+
+      - name: Build C dependencies
+        run: |
+          chmod +x pre-dependencies
+          chmod +x build-dependencies
+          ./pre-dependencies
+          ./build-dependencies
+
+      - name: Build Onyx
+        run: ./stack-local build
+
+      - name: Copy resources
+        run: ./copy-resources
+
+      - name: Package Onyx
+        run: ./package
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: onyx-macos-package
+          path: ./package-output-folder  # Replace with your actual package output folder
